@@ -1,0 +1,113 @@
+lotes_disponibles = [
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0]
+]
+
+detalles_lotes = [
+    {"numero": 1, "tamaño": "2900 m²", "precio": "$155.000.000"},
+    {"numero": 2, "tamaño": "5000 m²", "precio": "$100.000.000"},
+    {"numero": 3, "tamaño": "1800 m²", "precio": "$100.000.000"},
+    {"numero": 4, "tamaño": "2200 m²", "precio": "$180.000.000"},
+    {"numero": 5, "tamaño": "3700 m²", "precio": "$120.000.000"}
+]
+
+clientes = []
+
+def mostrar_disponibilidad_lotes():
+    print("El estado actual de los lotes:")
+    for fila in lotes_disponibles:
+        for lote in fila:
+            if lote == 0:
+                print("[ ]", end=" ")
+            else:
+                print("[X]", end=" ")
+        print()
+
+def seleccionar_lote():
+    mostrar_disponibilidad_lotes()
+    print()
+
+    while True:
+        fila = int(input("Ingrese la fila del lote que desea seleccionar: "))
+        columna = int(input("Ingrese la columna del lote que desea seleccionar: "))
+
+        if fila < 0 or fila >= len(lotes_disponibles) or columna < 0 or columna >= len(lotes_disponibles[0]):
+            print("Coordenadas inválidas. Por favor, ingrese nuevamente.")
+        elif lotes_disponibles[fila][columna] == 0:
+            rut = input("Ingrese el RUT del cliente: ")
+            nombre = input("Ingrese el nombre completo del cliente: ")
+            telefono = input("Ingrese el número de teléfono del cliente: ")
+            email = input("Ingrese el correo electrónico del cliente: ")
+
+            lotes_disponibles[fila][columna] = 1
+
+            detalle_lote = detalles_lotes[fila]
+            cliente = {"RUT": rut, "nombre": nombre, "telefono": telefono, "email": email, "lote": detalle_lote}
+            clientes.append(cliente)
+
+            print("El lote fue seleccionado correctamente.")
+            break
+        else:
+            print("El lote seleccionado ya ha sido comprado. Por favor, seleccione otro lote.")
+
+def mostrar_detalles_lote_seleccionado():
+    if len(clientes) > 0:
+        print("Detalles de los lotes seleccionados:")
+        for cliente in clientes:
+            detalle_lote = cliente["lote"]
+            print("Número de lote:", detalle_lote["numero"])
+            print("Tamaño del lote:", detalle_lote["tamaño"])
+            print("Precio del lote:", detalle_lote["precio"])
+            print("Cliente:", cliente["nombre"])
+            print("RUT:", cliente["RUT"])
+            print("Teléfono:", cliente["telefono"])
+            print("Email:", cliente["email"])
+            print("----=====================================----")
+    else:
+        print("No se han seleccionado lotes.")
+
+def mostrar_clientes():
+    if len(clientes) > 0:
+        print("Clientes que han comprado un lote:")
+        for cliente in clientes:
+            print("Cliente:", cliente["nombre"])
+            detalle_lote = cliente["lote"]
+            print("Número de lote:", detalle_lote["numero"])
+            print("Tamaño del lote:", detalle_lote["tamaño"])
+            print("Precio del lote:", detalle_lote["precio"])
+            print("------------------------------")
+    else:
+        print("No hay ningún cliente registrado aún.")
+
+def menu():
+    while True:
+        print("=========== BIENVENIDO AL SISTEMA DE LOTES ============")
+        print("")
+        print("1. Ver la disponibilidad de los lotes")
+        print("2. Seleccionar un lote")
+        print("3. Ver los detalles de los lotes seleccionados")
+        print("4. Ver los clientes")
+        print("5. Salir")
+
+        opcion = input("Ingrese una opción: ")
+        print()
+
+        if opcion == "1":
+            mostrar_disponibilidad_lotes()
+        elif opcion == "2":
+            seleccionar_lote()
+        elif opcion == "3":
+            mostrar_detalles_lote_seleccionado()
+        elif opcion == "4":
+            mostrar_clientes()
+        elif opcion == "5":
+            print("¡Gracias por utilizar nuestro sistema!")
+            break
+        else:
+            print("Opción inválida. Por favor, ingrese una opción válida.")
+            print()
+
+menu()
